@@ -3,7 +3,11 @@ package tikape.kysymyksetjavastaukset;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -17,7 +21,22 @@ public class Main {
         System.out.println("yo");
         
         Spark.get("/", (req, res) -> {
+            List<String> lista = new ArrayList<>();
+            
+            Connection conn = getConnection();
+            PreparedStatement stmt = conn.prepareStatement("SELECT text FROM test");
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                String text = rs.getString("text");
+                lista.add(text);
+            }
+            
+            conn.close();
+            
             HashMap map = new HashMap<>();
+            
+            map.put("lista", lista);
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());         
