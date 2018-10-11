@@ -23,14 +23,14 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
 
     @Override
     public Kysymys findOne(Integer key) throws SQLException {
-        Kysymys kysymys = new Kysymys(null, null, null);
+        Kysymys kysymys = new Kysymys(-1, null, null, null);
         
         try {
             Connection conn = database.getConnection();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE id = ?");
             stmt.setInt(1, key);
             ResultSet rs = stmt.executeQuery();
-            Kysymys k = new Kysymys(rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
+            Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
             kysymys = k;
         } catch (Exception ex) {
             Logger.getLogger(KysymysDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,7 +47,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
                 ResultSet result = conn.prepareStatement("SELECT * FROM Kysymys").executeQuery()) {
 
             while (result.next()) {
-                kysymykset.add(new Kysymys(result.getString("kurssi"), result.getString("aihe"), result.getString("kysymys")));
+                kysymykset.add(new Kysymys(result.getInt("id"), result.getString("kurssi"), result.getString("aihe"), result.getString("kysymys")));
             }
         } catch (Exception ex) {
             Logger.getLogger(KysymysDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,7 +58,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
 
     @Override
     public Kysymys saveOrUpdate(Kysymys object) throws SQLException {
-        Kysymys kysymys = new Kysymys(null, null, null);
+        Kysymys kysymys = new Kysymys(-1, null, null, null);
         
         try {
             Connection conn = database.getConnection();
@@ -72,7 +72,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
             
             PreparedStatement haku = conn.prepareStatement("SELECT * FROM Kysymys");
             ResultSet rs = haku.executeQuery();
-            Kysymys k = new Kysymys(rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
+            Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
             kysymys = k;
         } catch (Exception ex) {
             Logger.getLogger(KysymysDao.class.getName()).log(Level.SEVERE, null, ex);
