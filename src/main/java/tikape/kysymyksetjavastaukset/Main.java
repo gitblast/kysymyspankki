@@ -24,11 +24,11 @@ public class Main {
             List<String> lista = new ArrayList<>();
             
             Connection conn = getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT text FROM test");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys");
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
-                String text = rs.getString("text");
+                String text = rs.getString("kysymys");
                 lista.add(text);
             }
             
@@ -45,9 +45,15 @@ public class Main {
         Spark.post("/", (req, res) -> {
             Connection conn = getConnection();
             
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO test (text) VALUES (?)");
-            stmt.setString(1, req.queryParams("kysymys"));
-            stmt.executeUpdate();
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kysymys (kurssi, aihe, kysymys) VALUES (?, ?, ?)");
+            stmt.setString(1, req.queryParams("kurssi"));
+            stmt.setString(2, req.queryParams("aihe"));
+            stmt.setString(3, req.queryParams("kysymys"));
+            
+            //MUISTILISTA: tällä hetkellä voi lisätä tyhjän kentän. pitää muokata tätä allaolevaa
+            if (!req.queryParams("kysymys").equals(null) && !req.queryParams("kysymys").equals("")) {
+                stmt.executeUpdate();
+            }
             
             stmt.close();
             conn.close();
@@ -57,6 +63,8 @@ public class Main {
         });
         
     }
+    
+    
     
     public static Connection getConnection() throws Exception {
         String dbUrl = System.getenv("JDBC_DATABASE_URL");
