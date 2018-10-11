@@ -2,12 +2,12 @@
 package tikape.kysymyksetjavastaukset;
 
 public class Kysymys {
-    private int id;
+    private Integer id;
     private String kurssi;
     private String aihe;
     private String kysymys;
 
-    public Kysymys(int id, String kurssi, String aihe, String kysymys) {
+    public Kysymys(Integer id, String kurssi, String aihe, String kysymys) {
         this.id = id;
         this.kurssi = kurssi;
         this.aihe = aihe;
