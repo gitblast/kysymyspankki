@@ -17,7 +17,9 @@ public class Kysymys {
     public String getAihe() {
         return aihe;
     }
-
+    public Integer getId() {
+        return id;
+    }
 
     public String getKurssi() {
         return kurssi;
