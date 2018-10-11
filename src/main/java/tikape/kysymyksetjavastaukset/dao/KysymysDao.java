@@ -58,27 +58,40 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
 
     @Override
     public Kysymys saveOrUpdate(Kysymys object) throws SQLException {
-        Kysymys kysymys = new Kysymys(-1, null, null, null);
-        
-        try {
-            Connection conn = database.getConnection();
-            
+        // simply support saving -- disallow saving if task with 
+        // same name exists
+        Kysymys byName = findByQuestion(object.getKysymys());
+
+        if (byName != null) {
+            return byName;
+        }
+
+        try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kysymys (kurssi, aihe, kysymys) VALUES (?, ?, ?)");
-                stmt.setString(1, object.getKurssi());
-                stmt.setString(2, object.getKurssi());
-                stmt.setString(3, object.getKysymys());
-                
+            stmt.setString(1, object.getKurssi());
+            stmt.setString(2, object.getAihe());
+            stmt.setString(3, object.getKysymys());
             stmt.executeUpdate();
-            
-            PreparedStatement haku = conn.prepareStatement("SELECT * FROM Kysymys");
-            ResultSet rs = haku.executeQuery();
-            Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
-            kysymys = k;
         } catch (Exception ex) {
             Logger.getLogger(KysymysDao.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
-        return kysymys;
+
+        return findByQuestion(object.getKysymys());
+
+    }
+    
+    private Kysymys findByQuestion(String question) throws SQLException{
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE kysymys = ?");
+            stmt.setString(1, question);
+
+            ResultSet result = stmt.executeQuery();
+            if (!result.next()) {
+                return null;
+            }
+
+            return new Kysymys(result.getInt("id"), result.getString("kurssi"), result.getString("aihe"), result.getString("kysymys"));
+        }
     }
 
     @Override

@@ -45,7 +45,7 @@ public class Main {
             
             map.put("user", kDao.findOne(kysymysId));
             
-            return new ModelAndView(map, "user");
+            return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
         
     }
