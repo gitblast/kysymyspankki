@@ -25,8 +25,12 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE id = ?");
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
-             
+        
+        rs.close();
+        stmt.close();
+        conn.close();
         
         return k;
     }
@@ -36,11 +40,14 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         List<Kysymys> kysymykset = new ArrayList<>();
 
         Connection conn = database.getConnection();
-        ResultSet result = conn.prepareStatement("SELECT * FROM Kysymys").executeQuery(); 
+        ResultSet rs = conn.prepareStatement("SELECT * FROM Kysymys").executeQuery(); 
 
-        while (result.next()) {
-            kysymykset.add(new Kysymys(result.getInt("id"), result.getString("kurssi"), result.getString("aihe"), result.getString("kysymys")));
+        while (rs.next()) {
+            kysymykset.add(new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys")));
         }
+        
+        rs.close();
+        conn.close();
         
 
         return kysymykset;
@@ -59,7 +66,10 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         stmt.setString(1, object.getKurssi());
         stmt.setString(2, object.getAihe());
         stmt.setString(3, object.getKysymys());
-        stmt.executeUpdate();        
+        stmt.executeUpdate();  
+        
+        stmt.close();
+        conn.close();
 
         return findByQuestion(object.getKysymys());
 
@@ -70,12 +80,16 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE kysymys = ?");
         stmt.setString(1, question);
 
-        ResultSet result = stmt.executeQuery();
-        if (!result.next()) {
+        ResultSet rs = stmt.executeQuery();
+        if (!rs.next()) {
             return null;
         }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
 
-        return new Kysymys(result.getInt("id"), result.getString("kurssi"), result.getString("aihe"), result.getString("kysymys"));
+        return new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
     }
 
     @Override
