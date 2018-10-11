@@ -30,7 +30,7 @@ public class Main {
             return DriverManager.getConnection(dbUrl);
         }
 
-        return DriverManager.getConnection("jdbc:sqlite:huonekalut.db");
+        return DriverManager.getConnection("jdbc:sqlite:questions.db");
     }
 
 }
