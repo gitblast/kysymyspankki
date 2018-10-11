@@ -2,13 +2,11 @@
 package tikape.kysymyksetjavastaukset;
 
 public class Kysymys {
-    private int id;
     private String kurssi;
     private String aihe;
     private String kysymys;
 
-    public Kysymys(int id, String kurssi, String aihe, String kysymys) {
-        this.id = id;
+    public Kysymys(String kurssi, String aihe, String kysymys) {
         this.kurssi = kurssi;
         this.aihe = aihe;
         this.kysymys = kysymys;
@@ -18,9 +16,6 @@ public class Kysymys {
         return aihe;
     }
 
-    public int getId() {
-        return id;
-    }
 
     public String getKurssi() {
         return kurssi;

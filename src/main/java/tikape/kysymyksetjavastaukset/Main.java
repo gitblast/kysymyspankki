@@ -11,69 +11,47 @@ import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import tikape.kysymyksetjavastaukset.dao.KysymysDao;
+import tikape.kysymyksetjavastaukset.database.Database;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         if (System.getenv("PORT") != null) {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
-        System.out.println("yo");
+        
+        Database database = new Database();
+        KysymysDao kDao = new KysymysDao(database);
         
         Spark.get("/", (req, res) -> {
-            List<Kysymys> lista = new ArrayList<>();
-            
-            Connection conn = getConnection();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys");
-            ResultSet rs = stmt.executeQuery();
-            
-            while (rs.next()) {
-                Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"),
-                        rs.getString("aihe"), rs.getString("kysymys"));
-                lista.add(k);
-            }
-            
-            stmt.close();
-            conn.close();
-            
             HashMap map = new HashMap<>();
             
-            map.put("lista", lista);
+            map.put("lista", kDao.findAll());
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());    
         
         Spark.post("/", (req, res) -> {
-            Connection conn = getConnection();
-            
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kysymys (kurssi, aihe, kysymys) VALUES (?, ?, ?)");
-            stmt.setString(1, req.queryParams("kurssi"));
-            stmt.setString(2, req.queryParams("aihe"));
-            stmt.setString(3, req.queryParams("kysymys"));
-            
-            //MUISTILISTA: tällä hetkellä voi lisätä tyhjän kentän. pitää muokata tätä allaolevaa
-            if (!req.queryParams("kysymys").equals(null) && !req.queryParams("kysymys").equals("")) {
-                stmt.executeUpdate();
-            }
-            
-            stmt.close();
-            conn.close();
+            kDao.saveOrUpdate(new Kysymys(req.queryParams("kurssi"), req.queryParams("aihe"), req.queryParams("kysymys")));
             
             res.redirect("/");
             return "";
         });
         
+        Spark.get("/kysymykset/:id", (req, res) -> {
+            HashMap map = new HashMap<>();
+            Integer kysymysId = Integer.parseInt(req.params(":id"));
+            
+            map.put("user", kDao.findOne(kysymysId));
+            
+            return new ModelAndView(map, "user");
+        }, new ThymeleafTemplateEngine());
+        
     }
     
     
     
-    public static Connection getConnection() throws Exception {
-        String dbUrl = System.getenv("JDBC_DATABASE_URL");
-        if (dbUrl != null && dbUrl.length() > 0) {
-            return DriverManager.getConnection(dbUrl);
-        }
-
-        return DriverManager.getConnection("jdbc:sqlite:questions.db");
-    }
+    
 
 }
