@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Kysymyspankki</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <h2>Kysymykset</h2>
         
         <ul>
             <li th:each="arvo : ${lista}">
@@ -21,5 +21,38 @@
             <input type="text" name="kysymys"/>
             <input type="submit"/>
         </form>
+        
+        <h2>Luo uusi kysymys</h2>
+        <form action="/" method="POST">
+          <table>
+            <tr>
+              <td>
+                Kurssi:
+              </td>
+              <td>
+                  <input type="text" name="kurssi"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Aihe:
+              </td>
+              <td>
+                  <input type="text" name="aihe"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Kysymysteksti:
+              </td>
+              <td>
+                  <input type="text" name="kysymys"/>
+              </td>
+            </tr>
+          </table>
+
+          <input type="submit" value="Luo"/>
+        </form>
+
     </body>
 </html>
