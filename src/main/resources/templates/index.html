@@ -10,9 +10,9 @@
         
         <ul>
             <li th:each="arvo : ${lista}">
-                <span th:text="${arvo}">
-                    setit
-                </span>
+                <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
+                    <span th:text="${arvo.kysymys}">Kysymys</span>
+                </a>
             </li>
         </ul>
         

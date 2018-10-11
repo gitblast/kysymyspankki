@@ -21,15 +21,16 @@ public class Main {
         System.out.println("yo");
         
         Spark.get("/", (req, res) -> {
-            List<String> lista = new ArrayList<>();
+            List<Kysymys> lista = new ArrayList<>();
             
             Connection conn = getConnection();
             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys");
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
-                String text = rs.getString("kysymys");
-                lista.add(text);
+                Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"),
+                        rs.getString("aihe"), rs.getString("kysymys"));
+                lista.add(k);
             }
             
             stmt.close();
