@@ -32,6 +32,7 @@ public class Main {
                 lista.add(text);
             }
             
+            stmt.close();
             conn.close();
             
             HashMap map = new HashMap<>();
@@ -39,7 +40,21 @@ public class Main {
             map.put("lista", lista);
 
             return new ModelAndView(map, "index");
-        }, new ThymeleafTemplateEngine());         
+        }, new ThymeleafTemplateEngine());    
+        
+        Spark.post("/", (req, res) -> {
+            Connection conn = getConnection();
+            
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO test (text) VALUES (?)");
+            stmt.setString(1, req.queryParams("kysymys"));
+            stmt.executeUpdate();
+            
+            stmt.close();
+            conn.close();
+            
+            res.redirect("/");
+            return "";
+        });
         
     }
     
