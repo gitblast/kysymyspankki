@@ -7,5 +7,18 @@
     </head>
     <body>
         <div>TODO write content</div>
+        
+        <ul>
+            <li th:each="arvo : ${lista}">
+                <span th:text="${arvo}">
+                    setit
+                </span>
+            </li>
+        </ul>
+        
+        <form action="/" method="POST">
+            <input type="text" name="kysymys"/>
+            <input type="submit"/>
+        </form>
     </body>
 </html>
