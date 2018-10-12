@@ -60,8 +60,8 @@ public class Main {
         
         Spark.post("/vastaus/:id", (req, res) -> {
             vDao.delete(Integer.parseInt(req.params(":id")));
-            
-            res.redirect("/kysymykset/:id");
+            System.out.println("requ parametrit tai no joo:  " + req.params(":id"));
+            res.redirect("/kysymykset/" + req.params(":id"));
             return "";
         });
         
