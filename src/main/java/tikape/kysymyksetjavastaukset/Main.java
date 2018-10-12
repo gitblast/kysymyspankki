@@ -61,14 +61,16 @@ public class Main {
         Spark.post("/vastaus/:id", (req, res) -> {
             vDao.delete(Integer.parseInt(req.params(":id")));
             
-            res.redirect("/kysymykset/:id");
+            res.redirect("/kysymykset/" + req.params("id"));
             return "";
         });
         
         Spark.post("/vastaukset/:id", (req, res) -> {
-            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), Boolean.parseBoolean(req.queryParams("oikein")), Integer.parseInt(req.queryParams("kysymys_id"))));
+            //vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), Boolean.parseBoolean(req.queryParams("oikein")), Integer.parseInt(req.queryParams("kysymys_id"))));
+            System.out.println("TASSA TAMA ON !!!!!!!!!!!!!!!!!! ::: parametrit: " + req.queryParams("oikein"));
             
-            res.redirect("/kysymykset/:id");
+            
+            res.redirect("/kysymykset/" + req.params("id"));
             return "";
         });
         
