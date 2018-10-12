@@ -64,8 +64,8 @@ public class Main {
             res.redirect("/kysymykset/" + req.params(":id"));
             return "";
         });
-        
-        Spark.post("/vastaukset/:id", (req, res) -> {
+        //TÄSSÄ ONGELMA::: pitää jostain saada tietää mihin kysymykseen viitataan jotta voidaan poistaa ja redirectata. ehkä luomalla /poista tms? myös kysymys.html väärin
+        Spark.post("/vastaukset/", (req, res) -> {
             boolean oikein = false;
             if (req.queryParams("oikein") != null) {
                 oikein = true;
