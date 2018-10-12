@@ -33,6 +33,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());    
         
         Spark.post("/", (req, res) -> {
+            System.out.println("TOIMIIIIII");
             kDao.saveOrUpdate(new Kysymys(-1, req.queryParams("kurssi"), req.queryParams("aihe"), req.queryParams("kysymys")));
             
             res.redirect("/");
