@@ -66,7 +66,11 @@ public class Main {
         });
         
         Spark.post("/vastaukset/:id", (req, res) -> {
-            //vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), Boolean.parseBoolean(req.queryParams("oikein")), Integer.parseInt(req.queryParams("kysymys_id"))));
+            boolean oikein = true;
+            if (req.queryParams() == null) {
+                oikein = false;
+            }
+            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), oikein, Integer.parseInt(req.queryParams("kysymys_id"))));
             System.out.println("TASSA TAMA ON !!!!!!!!!!!!!!!!!! ::: parametrit: " + req.queryParams("oikein"));
             
             
