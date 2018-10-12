@@ -45,7 +45,7 @@ public class Main {
             HashMap map = new HashMap<>();
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
-            map.put("kysymys", kDao.findOne(kysymysId));
+            map.put("kysymyskset", kDao.findOne(kysymysId));
             map.put("lista", vDao.findAll());
             
             return new ModelAndView(map, "kysymys");
@@ -61,14 +61,14 @@ public class Main {
         Spark.post("/vastaus/:id", (req, res) -> {
             vDao.delete(Integer.parseInt(req.params(":id")));
             
-            res.redirect("/kysymykset/" + req.params(":id"));
+            res.redirect("/kysymykset/:id");
             return "";
         });
         
         Spark.post("/vastaukset/:id", (req, res) -> {
-            boolean oikein = true;
-            if (req.queryParams("oikein") == null) {
-                oikein = false;
+            boolean oikein = false;
+            if (req.queryParams("oikein") != null) {
+                oikein = true;
             }
             
             //vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), oikein, Integer.parseInt(req.params(":id"))));
@@ -76,7 +76,7 @@ public class Main {
             System.out.println("REQ BODY: " + req.body());
             
             
-            res.redirect("/kysymykset/" + req.params(":id"));
+            res.redirect("/kysymykset/:id");
             return "";
         });
         
