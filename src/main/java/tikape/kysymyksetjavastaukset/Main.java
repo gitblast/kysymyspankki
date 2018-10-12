@@ -12,6 +12,7 @@ import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.kysymyksetjavastaukset.dao.KysymysDao;
+import tikape.kysymyksetjavastaukset.dao.VastausDao;
 import tikape.kysymyksetjavastaukset.database.Database;
 
 public class Main {
@@ -23,6 +24,7 @@ public class Main {
         
         Database database = new Database();
         KysymysDao kDao = new KysymysDao(database);
+        VastausDao vDao = new VastausDao(database);
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -33,7 +35,6 @@ public class Main {
         }, new ThymeleafTemplateEngine());    
         
         Spark.post("/", (req, res) -> {
-            System.out.println("TOIMIIIIII");
             kDao.saveOrUpdate(new Kysymys(-1, req.queryParams("kurssi"), req.queryParams("aihe"), req.queryParams("kysymys")));
             
             res.redirect("/");
@@ -45,6 +46,7 @@ public class Main {
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
             map.put("kysymys", kDao.findOne(kysymysId));
+            map.put("lista", vDao.findAll());
             
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
@@ -53,6 +55,20 @@ public class Main {
             kDao.delete(Integer.parseInt(req.params(":id")));
             
             res.redirect("/");
+            return "";
+        });
+        
+        Spark.post("/vastaus/:id", (req, res) -> {
+            vDao.delete(Integer.parseInt(req.params(":id")));
+            
+            res.redirect("/kysymykset/:id");
+            return "";
+        });
+        
+        Spark.post("/vastaukset/:id", (req, res) -> {
+            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), Boolean.parseBoolean(req.queryParams("oikein")), Integer.parseInt(req.queryParams("kysymys_id"))));
+            
+            res.redirect("/kysymykset/:id");
             return "";
         });
         

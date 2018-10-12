@@ -25,7 +25,7 @@
                 
                 <span th:text="${arvo.vastaus}">Vastaus</span>
                 
-                <form th:action="@{~/vastaukset/{id}(id=${arvo.id})}" method="post">
+                <form th:action="@{~/vastaus/{id}(id=${arvo.id})}" method="post">
                     <input type="submit" value="Poista"/>
                 </form>
             </li>
