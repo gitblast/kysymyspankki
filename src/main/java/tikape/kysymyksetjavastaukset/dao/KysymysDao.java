@@ -80,23 +80,22 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
 
     }
     
-    private Kysymys findByQuestion(String question) throws SQLException {
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE kysymys = ?");
-        stmt.setString(1, question);
-
-        ResultSet rs = stmt.executeQuery();
-        if (!rs.next()) {
-            return null;
-        }
-        
-        rs.close();
-        stmt.close();
-        conn.close();
-
-        return new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
+    /*private Kysymys findByQuestion(String question) throws SQLException {
+    Connection conn = database.getConnection();
+    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE kysymys = ?");
+    stmt.setString(1, question);
+    
+    ResultSet rs = stmt.executeQuery();
+    if (!rs.next()) {
+    return null;
     }
-
+    
+    rs.close();
+    stmt.close();
+    conn.close();
+    
+    return new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
+    }*/
     @Override
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();
