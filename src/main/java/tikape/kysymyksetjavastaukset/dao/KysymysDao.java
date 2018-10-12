@@ -25,7 +25,10 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE id = ?");
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
-        rs.next();
+        if (!rs.next()) {
+            return null;
+        }
+        
         Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
         
         rs.close();
