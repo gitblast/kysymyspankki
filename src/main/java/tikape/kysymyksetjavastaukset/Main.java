@@ -45,7 +45,7 @@ public class Main {
             HashMap map = new HashMap<>();
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
-            map.put("kysymyskset", kDao.findOne(kysymysId));
+            map.put("kysymykset", kDao.findOne(kysymysId));
             map.put("lista", vDao.findAll());
             
             return new ModelAndView(map, "kysymys");
