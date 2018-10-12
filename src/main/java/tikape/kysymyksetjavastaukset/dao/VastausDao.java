@@ -55,6 +55,7 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         stmt.executeUpdate();
         
         PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM Vastaus WHERE vastaus = ?");
+        stmt2.setString(1, object.getVastaus());
         ResultSet rs = stmt2.executeQuery();
         rs.next();
         
