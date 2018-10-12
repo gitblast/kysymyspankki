@@ -43,10 +43,17 @@ public class Main {
             HashMap map = new HashMap<>();
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
-            map.put("user", kDao.findOne(kysymysId));
+            map.put("kysymys", kDao.findOne(kysymysId));
             
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
+        
+        Spark.post("/kysymykset/:id", (req, res) -> {
+            kDao.delete(Integer.parseInt(req.params(":id")));
+            
+            res.redirect("/");
+            return "";
+        });
         
     }
     
