@@ -19,5 +19,31 @@
               </td>
             </tr>
         </table>
+        
+        <h2>Luo uusi vastausvaihtoehto</h2>
+        <form th:action="@{~/vastaukset/{id}(id=${kysymys.id})}" method="post">
+          <table>
+            <tr>
+              <td>
+                Vastausteksti:
+              </td>
+              <td>
+                  <input type="text" name="kurssi"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Oikein:
+              </td>
+              <td>
+                  <input type="checkbox" name="oikein"/>
+              </td>
+            </tr>     
+          </table>
+
+          <input type="submit" value="Luo"/>
+        </form>
+        
+        <a href="/">Kysymysten listaukseen</a>
     </body>
 </html>
