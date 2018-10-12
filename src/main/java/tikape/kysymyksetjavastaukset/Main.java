@@ -67,7 +67,7 @@ public class Main {
         
         Spark.post("/vastaukset/:id", (req, res) -> {
             boolean oikein = true;
-            if (req.queryParams() == null) {
+            if (req.queryParams("oikein") == null) {
                 oikein = false;
             }
             vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), oikein, Integer.parseInt(req.params("id"))));
