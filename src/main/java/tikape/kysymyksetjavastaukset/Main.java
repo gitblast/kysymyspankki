@@ -76,7 +76,7 @@ public class Main {
             System.out.println("REQ BODY: " + req.body());
             
             
-            res.redirect("/kysymykset/:id");
+            res.redirect("/kysymykset/" + req.params(":id"));
             return "";
         });
         
