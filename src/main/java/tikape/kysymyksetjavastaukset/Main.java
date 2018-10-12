@@ -46,7 +46,7 @@ public class Main {
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
             map.put("kysymykset", kDao.findOne(kysymysId));
-            map.put("lista", vDao.findAll());
+            map.put("lista", vDao.findAll(kysymysId));
             
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());

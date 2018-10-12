@@ -25,14 +25,14 @@
                 
                 <span th:text="${arvo.vastaus}">Vastaus</span>
                 
-                <form th:action="@{~/vastaus/{id}(id=${kysymykset.id})}" method="post">
+                <form th:action="@{~/vastaus/{id}(id=${arvo.id})}" method="post">
                     <input type="submit" value="Poista"/>
                 </form>
             </li>
         </ul>
         
         <h2>Luo uusi vastausvaihtoehto</h2>
-        <form th:action="@{~/vastaukset/{id}(id=${kysymykset.id})}" method="post">
+        <form th:action="@{~/vastaukset/{id}(id=${arvo.id})}" method="post">
           <table>
             <tr>
               <td>
