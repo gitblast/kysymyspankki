@@ -70,7 +70,7 @@ public class Main {
             if (req.queryParams() == null) {
                 oikein = false;
             }
-            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), oikein, Integer.parseInt(req.queryParams("kysymys_id"))));
+            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), oikein, Integer.parseInt(req.params("id"))));
             System.out.println("TASSA TAMA ON !!!!!!!!!!!!!!!!!! ::: parametrit: " + req.queryParams("oikein"));
             
             
