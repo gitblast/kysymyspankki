@@ -16,6 +16,7 @@ import tikape.kysymyksetjavastaukset.dao.VastausDao;
 import tikape.kysymyksetjavastaukset.database.Database;
 
 public class Main {
+    //todo: ehkä pitää poistaa kaikki vastaukset kun poistetaan kysymys...?
 
     public static void main(String[] args) throws ClassNotFoundException {
         if (System.getenv("PORT") != null) {
@@ -28,6 +29,7 @@ public class Main {
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
+            map.put("kurssi", kDao.findAllKurssit());
             
             map.put("lista", kDao.findAll());
 

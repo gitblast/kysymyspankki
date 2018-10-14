@@ -18,6 +18,24 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
     public KysymysDao(Database database) {
         this.database = database;
     }
+    
+    public List<String> findAllKurssit() throws SQLException {
+        List<String> kurssit = new ArrayList<>();
+        
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT kurssi FROM Kysymys");
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            kurssit.add(rs.getString("kurssi"));
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return kurssit;
+    }
 
     @Override
     public Kysymys findOne(Integer key) throws SQLException {       
