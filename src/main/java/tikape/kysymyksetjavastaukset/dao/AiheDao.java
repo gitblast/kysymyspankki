@@ -44,6 +44,19 @@ public class AiheDao implements Dao<Aihe, Integer> {
 
         return aiheet;
     }
+    
+    public Aihe findByQuestion(Integer questionId) throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Aihe "
+                + "INNER JOIN Kysymys ON Kysymys.aihe_id = Aihe.id AND Kysymys.id = ?");
+        stmt.setInt(1, questionId);
+        ResultSet rs = stmt.executeQuery();
+        if (!rs.next()) {
+            return null;
+        }
+        
+        return new Aihe(rs.getInt("id"), rs.getInt("kurssi_id"), rs.getString("aihe"));
+    }
 
     @Override
     public Aihe saveOrUpdate(Aihe object) throws SQLException {

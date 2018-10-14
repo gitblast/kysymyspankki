@@ -43,6 +43,19 @@ public class KurssiDao implements Dao<Kurssi, Integer> {
 
         return kurssit;
     }
+    
+    public Kurssi findByQuestion(Integer questionId) throws SQLException {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kurssi INNER JOIN Aihe ON Aihe.kurssi_id = Kurssi.id "
+                + "INNER JOIN Kysymys ON Kysymys.aihe_id = Aihe.id AND Kysymys.id = ?");
+        stmt.setInt(1, questionId);
+        ResultSet rs = stmt.executeQuery();
+        if (!rs.next()) {
+            return null;
+        }
+        
+        return new Kurssi(rs.getInt("id"), rs.getString("kurssi"));
+    }
 
     @Override
     public Kurssi saveOrUpdate(Kurssi object) throws SQLException {
