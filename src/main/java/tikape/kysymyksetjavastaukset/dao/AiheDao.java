@@ -54,7 +54,7 @@ public class AiheDao implements Dao<Aihe, Integer> {
         
         while (testi.next()) {
             if (testi.getString("aihe").equals(object.getAihe())) {
-                return object;
+                return new Aihe(testi.getInt("id"), testi.getInt("kurssi_id"), testi.getString("aihe"));
             }
         }
         

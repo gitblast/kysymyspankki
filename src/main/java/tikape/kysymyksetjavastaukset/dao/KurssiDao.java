@@ -53,7 +53,7 @@ public class KurssiDao implements Dao<Kurssi, Integer> {
         
         while (testi.next()) {
             if (testi.getString("kurssi").equals(object.getKurssi())) {
-                return object;
+                return new Kurssi(testi.getInt("id"), testi.getString("kurssi"));
             }
         }
         
