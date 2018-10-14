@@ -29,8 +29,6 @@ public class Main {
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("kurssit", kDao.findAllKurssit());
-            map.put("aiheet", kDao.findAllAiheet("Ohjelmoinnin perusteet"));
             map.put("lista", kDao.findAll());
 
             return new ModelAndView(map, "index");
