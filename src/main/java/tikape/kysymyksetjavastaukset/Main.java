@@ -29,7 +29,7 @@ public class Main {
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("kurssi", kDao.findAllKurssit());
+            map.put("kurssit", kDao.findAllKurssit());
             
             map.put("lista", kDao.findAll());
 
