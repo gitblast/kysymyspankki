@@ -8,52 +8,51 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.kysymyksetjavastaukset.Aihe;
-import tikape.kysymyksetjavastaukset.Kysymys;
+import tikape.kysymyksetjavastaukset.Kurssi;
 import tikape.kysymyksetjavastaukset.database.Database;
 
-public class AiheDao implements Dao<Aihe, Integer> {
+public class KurssiDao implements Dao<Kurssi, Integer> {
 
     private Database database;
 
-    public AiheDao(Database database) {
+    public KurssiDao(Database database) {
         this.database = database;
     }
     
     @Override
-    public Aihe findOne(Integer key) throws SQLException {       
+    public Kurssi findOne(Integer key) throws SQLException {       
         return null;
     }
     
     
 
     @Override
-    public List<Aihe> findAll() throws SQLException {
-        List<Aihe> aiheet = new ArrayList<>();
+    public List<Kurssi> findAll() throws SQLException {
+        List<Kurssi> kurssit = new ArrayList<>();
 
         Connection conn = database.getConnection();
-        ResultSet rs = conn.prepareStatement("SELECT * FROM Aihe").executeQuery(); 
+        ResultSet rs = conn.prepareStatement("SELECT * FROM Kurssi").executeQuery(); 
 
         while (rs.next()) {
-            aiheet.add(new Aihe(rs.getInt("id"), rs.getInt("kurssi_id"), rs.getString("aihe")));
+            kurssit.add(new Kurssi(rs.getInt("id"), rs.getString("kurssi")));
         }
         
         rs.close();
         conn.close();
         
 
-        return aiheet;
+        return kurssit;
     }
 
     @Override
-    public Aihe saveOrUpdate(Aihe object) throws SQLException {
+    public Kurssi saveOrUpdate(Kurssi object) throws SQLException {
                
         Connection conn = database.getConnection();
-        PreparedStatement tarkistus = conn.prepareStatement("SELECT * FROM Aihe");
+        PreparedStatement tarkistus = conn.prepareStatement("SELECT * FROM Kurssi");
         ResultSet testi = tarkistus.executeQuery();
         
         while (testi.next()) {
-            if (testi.getString("aihe").equals(object.getAihe())) {
+            if (testi.getString("kurssi").equals(object.getKurssi())) {
                 return object;
             }
         }
@@ -61,17 +60,17 @@ public class AiheDao implements Dao<Aihe, Integer> {
         testi.close();
         tarkistus.close();
         
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Aihe (aihe) VALUES (?)");
-        stmt.setString(1, object.getAihe());
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kurssi (kurssi) VALUES (?)");
+        stmt.setString(1, object.getKurssi());
         stmt.executeUpdate();
         
         
-        PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM Aihe WHERE aihe = ?");
-        stmt2.setString(1, object.getAihe());
+        PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM Kurssi WHERE kurssi = ?");
+        stmt2.setString(1, object.getKurssi());
         ResultSet rs = stmt2.executeQuery();
         
         rs.next();
-        Aihe a = new Aihe(rs.getInt("id"), rs.getInt("kurssi_id"), rs.getString("aihe"));
+        Kurssi a = new Kurssi(rs.getInt("id"), rs.getString("kurssi"));
 
         rs.close();
         stmt2.close();
@@ -86,7 +85,7 @@ public class AiheDao implements Dao<Aihe, Integer> {
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();        
         
-        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Aihe WHERE id = ?");
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kurssi WHERE id = ?");
         stmt.setInt(1, key);
         stmt.executeUpdate();
         stmt.close();

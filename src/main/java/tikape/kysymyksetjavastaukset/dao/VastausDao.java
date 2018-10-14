@@ -28,12 +28,11 @@ public class VastausDao implements Dao<Vastaus, Integer> {
     
     @Override
     public List<Vastaus> findAll() throws SQLException {
-        List<Vastaus> vastaukset = new ArrayList();
-        return vastaukset;
+        return null;
     }
 
     
-    public List<Vastaus> findAll(Integer kysymysId) throws SQLException {
+    public List<Vastaus> findAllByQuestion(Integer kysymysId) throws SQLException {
         List<Vastaus> vastaukset = new ArrayList();
         
         Connection conn = database.getConnection();

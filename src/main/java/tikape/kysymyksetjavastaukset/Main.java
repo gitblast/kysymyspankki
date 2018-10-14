@@ -12,7 +12,7 @@ import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.kysymyksetjavastaukset.dao.AiheDao;
-import tikape.kysymyksetjavastaukset.dao.KtestDao;
+import tikape.kysymyksetjavastaukset.dao.KurssiDao;
 import tikape.kysymyksetjavastaukset.dao.KysymysDao;
 import tikape.kysymyksetjavastaukset.dao.VastausDao;
 import tikape.kysymyksetjavastaukset.database.Database;
@@ -29,20 +29,21 @@ public class Main {
         KysymysDao kDao = new KysymysDao(database);
         VastausDao vDao = new VastausDao(database);
         AiheDao aDao = new AiheDao(database);
-        KtestDao kTDao = new KtestDao(database);
+        KurssiDao kurssiDao = new KurssiDao(database);
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("lista", kTDao.findAll());
+            map.put("kurssit", kurssiDao.findAll());
+            map.put("kysymykset", kDao.findAll());
             map.put("aiheet", aDao.findAll());
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());    
         
         Spark.post("/", (req, res) -> {
-            
-            Aihe a = aDao.saveOrUpdate(new Aihe(-1, req.queryParams("aihe")));
-            kTDao.saveOrUpdate(new KysymysTest(-1, a.getId(), req.queryParams("kysymys")));
+            Kurssi k = kurssiDao.saveOrUpdate(new Kurssi(-1, req.queryParams("kurssi")));
+            Aihe a = aDao.saveOrUpdate(new Aihe(-1, k.getId(), req.queryParams("aihe")));
+            kDao.saveOrUpdate(new Kysymys(-1, a.getId(), req.queryParams("kysymys")));
             
             res.redirect("/");
             return "";
@@ -53,7 +54,7 @@ public class Main {
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
             map.put("kysymys", kDao.findOne(kysymysId));
-            map.put("vastaukset", vDao.findAll(kysymysId));
+            map.put("vastaukset", vDao.findAllByQuestion(kysymysId));
             
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());

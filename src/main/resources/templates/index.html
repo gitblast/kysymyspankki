@@ -7,32 +7,36 @@
     </head>
     <body>
         <h2>Kysymykset</h2>
-        
-        <ul th:each="aihe : ${aiheet}">
+
+        <ul th:each="kurssi : ${kurssit}">
+            <p th:text="${kurssi.kurssi}">kurssi</p>
             
-            <p th:text="${aihe.aihe}">aihe</p>
-                <li th:each="arvo : ${lista}" th:if="${arvo.aiheId == aihe.id}">
-                    <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
-                        <span th:text="${arvo.kysymys}">Kysymys</span>
-                    </a>
-                        <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
-                            <input type="submit" value="Poista"/>
-                        </form>
-                </li>
-            
+            <ul th:each="aihe : ${aiheet}" th:if="${aihe.kurssiId == kurssi.id}">
+
+                <p th:text="${aihe.aihe}">aihe</p>
+                    <li th:each="arvo : ${kysymykset}" th:if="${arvo.aiheId == aihe.id}">
+                        <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
+                            <span th:text="${arvo.kysymys}">Kysymys</span>
+                        </a>
+                            <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
+                                <input type="submit" value="Poista"/>
+                            </form>
+                    </li>
+
+            </ul>
         </ul>
-        
+            
         <h2>Luo uusi kysymys</h2>
         <form action="/" method="POST">
           <table>
-            <!--<tr>
+            <tr>
               <td>
                 Kurssi:
               </td>
               <td>
                   <input type="text" name="kurssi"/>
               </td>
-            </tr>-->
+            </tr>
             <tr>
               <td>
                 Aihe:

@@ -66,32 +66,13 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
             return null;
         }
         
-        Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
+        Kysymys k = new Kysymys(rs.getInt("id"), rs.getInt("aihe_id"), rs.getString("kysymys"));
         
         rs.close();
         stmt.close();
         conn.close();
         
         return k;
-    }
-    
-    public List<Kysymys> findAllByAihe(String aihe) throws SQLException {
-        List<Kysymys> kysymykset = new ArrayList<>();
-
-        Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE aihe = ?");
-        stmt.setString(1, aihe);
-        ResultSet rs = stmt.executeQuery();
-
-        while (rs.next()) {
-            kysymykset.add(new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys")));
-        }
-        
-        rs.close();
-        conn.close();
-        
-
-        return kysymykset;
     }
 
     @Override
@@ -102,7 +83,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         ResultSet rs = conn.prepareStatement("SELECT * FROM Kysymys").executeQuery(); 
 
         while (rs.next()) {
-            kysymykset.add(new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys")));
+            kysymykset.add(new Kysymys(rs.getInt("id"), rs.getInt("aihe_id"), rs.getString("kysymys")));
         }
         
         rs.close();
@@ -116,10 +97,9 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
     public Kysymys saveOrUpdate(Kysymys object) throws SQLException {
         
         Connection conn = database.getConnection();
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kysymys (kurssi, aihe, kysymys) VALUES (?, ?, ?)");
-        stmt.setString(1, object.getKurssi());
-        stmt.setString(2, object.getAihe());
-        stmt.setString(3, object.getKysymys());
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Kysymys (aihe_id, kysymys) VALUES (?, ?)");
+        stmt.setInt(1, object.getAiheId());
+        stmt.setString(2, object.getKysymys());
         stmt.executeUpdate();
         
         
@@ -128,7 +108,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         ResultSet rs = stmt2.executeQuery();
         
         rs.next();
-        Kysymys k = new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
+        Kysymys k = new Kysymys(rs.getInt("id"), rs.getInt("aihe_id"), rs.getString("kysymys"));
 
         rs.close();
         stmt2.close();
@@ -138,23 +118,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         return k;
 
     }
-    
-    /*private Kysymys findByQuestion(String question) throws SQLException {
-    Connection conn = database.getConnection();
-    PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE kysymys = ?");
-    stmt.setString(1, question);
-    
-    ResultSet rs = stmt.executeQuery();
-    if (!rs.next()) {
-    return null;
-    }
-    
-    rs.close();
-    stmt.close();
-    conn.close();
-    
-    return new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys"));
-    }*/
+  
     @Override
     public void delete(Integer key) throws SQLException {
         Connection conn = database.getConnection();        
