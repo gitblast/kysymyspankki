@@ -46,7 +46,7 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            aiheet.add(rs.getString("kurssi"));
+            aiheet.add(rs.getString("aihe"));
         }
         
         rs.close();
