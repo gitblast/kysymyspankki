@@ -1,13 +1,8 @@
 
 package tikape.kysymyksetjavastaukset;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -53,6 +48,8 @@ public class Main {
             HashMap map = new HashMap<>();
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
+            map.put("kurssi", kurssiDao.findByQuestion(kysymysId));
+            map.put("aihe", aDao.findByQuestion(kysymysId));
             map.put("kysymys", kDao.findOne(kysymysId));
             map.put("vastaukset", vDao.findAllByQuestion(kysymysId));
             
