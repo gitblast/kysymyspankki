@@ -9,9 +9,9 @@
         <h2>Kysymykset</h2>
         <!-- TH:IF KURSSIT.ISEMPTY TMS JA SAMA AIHEILLE! tai sitten suoraan poisto jos tyhjä-->
         <ul th:each="kurssi : ${kurssit}" >
-            <p th:text="${kurssi.kurssi}" th:unless="${#lists.isEmpty(kurssit)}">kurssi</p>
+            <p th:text="${kurssi.kurssi}" th:if="${!kurssit.isEmpty()}">kurssi</p>
             
-            <ul th:each="aihe : ${aiheet}" th:if="${aihe.kurssiId == kurssi.id}" th:unless="{#lists.isEmpty(aiheet)}">
+            <ul th:each="aihe : ${aiheet}" th:if="${aihe.kurssiId == kurssi.id}" th:if="{!aiheet.isEmpty()}">
 
                 <p th:text="${aihe.aihe}">aihe</p>
                     <li th:each="arvo : ${kysymykset}" th:if="${arvo.aiheId == aihe.id}">
