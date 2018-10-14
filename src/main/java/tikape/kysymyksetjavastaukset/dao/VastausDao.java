@@ -76,14 +76,28 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         return v;
     }
 
-    @Override
-    public void delete(Integer key) throws SQLException {
+    public Integer deleteAndReturnQid(Integer key) throws SQLException {
         Connection conn = database.getConnection();
+        PreparedStatement kysymysId = conn.prepareStatement("SELECT * FROM Vastaus WHERE id = ?");
+        kysymysId.setInt(1, key);
+        ResultSet rs = kysymysId.executeQuery();
+        rs.next();
+        Integer id = rs.getInt("kysymys_id");
+        
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Vastaus WHERE id = ?");
         stmt.setInt(1, key);
         stmt.executeUpdate();
+        rs.close();
+        kysymysId.close();
         stmt.close();
         conn.close();
+        
+        return id;
+    }
+
+    @Override
+    public void delete(Integer key) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

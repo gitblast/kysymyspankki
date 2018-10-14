@@ -58,10 +58,9 @@ public class Main {
             return "";
         });
         
-        Spark.post("/vastaus/:id", (req, res) -> {
-            vDao.delete(Integer.parseInt(req.params(":id")));
-            System.out.println("requ parametrit tai no joo:  " + req.params(":id"));
-            res.redirect("/kysymykset/" + req.params(":id"));
+        Spark.post("/kysymykset/poista/:id", (req, res) -> {
+            int kysymysId = vDao.deleteAndReturnQid(Integer.parseInt(req.params(":id")));
+            res.redirect("/kysymykset/" + String.valueOf(kysymysId));
             return "";
         });
         //TÄSSÄ ONGELMA::: pitää jostain saada tietää mihin kysymykseen viitataan jotta voidaan poistaa ja redirectata. ehkä luomalla /poista tms? myös kysymys.html väärin

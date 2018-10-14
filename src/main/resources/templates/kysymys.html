@@ -13,11 +13,7 @@
                 Kurssi
               </td>
             </tr>
-            <tr>
-              <td th:text="'ID: ' + ${kysymys.id}">
-                ID
-              </td>
-            </tr>
+            
             <tr>
               <td th:text="'Aihepiiri: ' + ${kysymys.aihe}">
                 Aihepiiri
@@ -30,7 +26,7 @@
                 
                 <span th:text="${arvo.vastaus}">Vastaus</span>
                 
-                <form th:action="@{~/vastaus/{id}(id=${arvo.id})}" method="post">
+                <form th:action="@{~/kysymykset/poista/{id}(id=${arvo.id})}" method="post">
                     <input type="submit" value="Poista"/>
                 </form>
             </li>
