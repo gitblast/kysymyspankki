@@ -13,9 +13,9 @@
                 <h2 th:text="${kurssi}">text</h2>
             </li>
             
-        </ul>
         
-        <ul>
+        
+        
             <li th:each="arvo : ${lista}">
                 <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
                     <span th:text="${arvo.kysymys}">Kysymys</span>
