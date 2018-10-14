@@ -53,7 +53,7 @@ public class AiheDao implements Dao<Aihe, Integer> {
         ResultSet testi = tarkistus.executeQuery();
         
         while (testi.next()) {
-            if (testi.getString("aihe").equals(object.getAihe())) {
+            if (testi.getString("aihe").equals(object.getAihe()) && testi.getInt("kurssi_id") == object.getKurssiId()) {
                 return new Aihe(testi.getInt("id"), testi.getInt("kurssi_id"), testi.getString("aihe"));
             }
         }
