@@ -15,7 +15,7 @@
                     <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}" th:if="${arvo.aiheId == aihe.id}">
                         <span th:text="${arvo.kysymys}">Kysymys</span>
                     </a>
-                        <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
+                        <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" th:if="${arvo.aiheId == aihe.id}" method="post">
                             <input type="submit" value="Poista"/>
                         </form>
                 </li>
