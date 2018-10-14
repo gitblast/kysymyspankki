@@ -23,7 +23,7 @@
         <ul>
             <li th:each="arvo : ${vastaukset}">
                 
-                <span th:text="${vastaukset.vastaus}">Vastaus</span>
+                <span th:text="${arvo.vastaus}">Vastaus</span>
                 
                 <form th:action="@{~/vastaus/{id}(id=${arvo.id})}" method="post">
                     <input type="submit" value="Poista"/>
