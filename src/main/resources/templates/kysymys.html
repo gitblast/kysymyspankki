@@ -25,6 +25,7 @@
             <li th:each="arvo : ${vastaukset}">
                 
                 <span th:text="${arvo.vastaus}">Vastaus</span>
+                <span th:text="${arvo.oikein}">Oikein</span>
                 
                 <form th:action="@{~/kysymykset/poista/{id}(id=${arvo.id})}" method="post">
                     <input type="submit" value="Poista"/>
