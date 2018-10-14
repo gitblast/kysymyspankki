@@ -37,6 +37,25 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         
         return k;
     }
+    
+    public List<Kysymys> findAllByAihe(String aihe) throws SQLException {
+        List<Kysymys> kysymykset = new ArrayList<>();
+
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE aihe = ?");
+        stmt.setString(1, aihe);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            kysymykset.add(new Kysymys(rs.getInt("id"), rs.getString("kurssi"), rs.getString("aihe"), rs.getString("kysymys")));
+        }
+        
+        rs.close();
+        conn.close();
+        
+
+        return kysymykset;
+    }
 
     @Override
     public List<Kysymys> findAll() throws SQLException {

@@ -27,10 +27,11 @@
                 <span th:text="${arvo.vastaus}">Vastaus</span>
                 <span th:if="${arvo.oikein == true}"><b>Oikein</b></span>
                 <span th:unless="${arvo.oikein == true}"><b>Väärin</b></span>
-                
-                <form th:action="@{~/kysymykset/poista/{id}(id=${arvo.id})}" method="post">
-                    <input type="submit" value="Poista"/>
-                </form>
+                <span>
+                    <form th:action="@{~/kysymykset/poista/{id}(id=${arvo.id})}" method="post">
+                        <input type="submit" value="Poista"/>
+                    </form>
+                </span>
             </li>
         </ul>
         
