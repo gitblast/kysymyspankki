@@ -46,7 +46,7 @@ public class Main {
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
             map.put("kysymykset", kDao.findOne(kysymysId));
-            map.put("lista", vDao.findAll(kysymysId));
+            map.put("vastaukset", vDao.findAll(kysymysId));
             
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
@@ -65,7 +65,7 @@ public class Main {
             return "";
         });
         //TÄSSÄ ONGELMA::: pitää jostain saada tietää mihin kysymykseen viitataan jotta voidaan poistaa ja redirectata. ehkä luomalla /poista tms? myös kysymys.html väärin
-        Spark.post("/vastaukset/", (req, res) -> {
+        Spark.post("/vastaukset/:id", (req, res) -> {
             boolean oikein = false;
             if (req.queryParams("oikein") != null) {
                 oikein = true;
