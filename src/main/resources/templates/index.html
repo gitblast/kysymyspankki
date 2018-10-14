@@ -8,19 +8,23 @@
     <body>
         <h2>Kysymykset</h2>
         
-        <ul th:each="kurssi : ${kurssit}">
-            
+        <ul th:each="kurssi : ${kurssit}">           
         
             <p th:text="${kurssi}">kurssi</p>
+            
+            <ul th:each="aihe : ${aiheet}">
+                
+                <p th:text="${aihe}">aihe</p>
         
-            <li th:each="arvo : ${lista}">
-                <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
-                    <span th:text="${arvo.kysymys}">Kysymys</span>
-                </a>
-                    <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
-                        <input type="submit" value="Poista"/>
-                    </form>
-            </li>
+                <li th:each="arvo : ${lista}">
+                    <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
+                        <span th:text="${arvo.kysymys}">Kysymys</span>
+                    </a>
+                        <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
+                            <input type="submit" value="Poista"/>
+                        </form>
+                </li>
+            </ul>
         </ul>
         
         <h2>Luo uusi kysymys</h2>
