@@ -61,8 +61,9 @@ public class AiheDao implements Dao<Aihe, Integer> {
         testi.close();
         tarkistus.close();
         
-        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Aihe (aihe) VALUES (?)");
-        stmt.setString(1, object.getAihe());
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Aihe (kurssi_id, aihe) VALUES (?, ?)");
+        stmt.setInt(1, object.getKurssiId());
+        stmt.setString(2, object.getAihe());
         stmt.executeUpdate();
         
         
