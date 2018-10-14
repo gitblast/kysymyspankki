@@ -58,7 +58,11 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Vastaus (kysymys_id, vastaus, oikein) VALUES (?, ?, ?)");
         stmt.setInt(1, object.getKysymysId());
         stmt.setString(2, object.getVastaus());
-        stmt.setBoolean(3, object.isOikein());
+        if (object.isOikein()) {
+            stmt.setString(3, "Oikein");
+        } else {
+            stmt.setString(3, "Väärin");
+        }
         stmt.executeUpdate();
         
         PreparedStatement stmt2 = conn.prepareStatement("SELECT * FROM Vastaus WHERE vastaus = ?");
@@ -66,7 +70,12 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         ResultSet rs = stmt2.executeQuery();
         rs.next();
         
-        Vastaus v = new Vastaus(rs.getInt("id"), rs.getString("vastaus"), rs.getBoolean("oikein"), rs.getInt("kysymys_id"));
+        boolean oikein = false;
+        if (rs.getString("oikein").equals("Oikein")) {
+            oikein = true;
+        }
+        
+        Vastaus v = new Vastaus(rs.getInt("id"), rs.getString("vastaus"), oikein, rs.getInt("kysymys_id"));
         
         rs.close();
         stmt2.close();
