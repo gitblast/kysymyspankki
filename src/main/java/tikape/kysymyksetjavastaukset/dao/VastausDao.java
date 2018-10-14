@@ -42,7 +42,11 @@ public class VastausDao implements Dao<Vastaus, Integer> {
         ResultSet rs = stmt.executeQuery();
         
         while (rs.next()) {
-            vastaukset.add(new Vastaus(rs.getInt("id"), rs.getString("vastaus"), rs.getBoolean("oikein"), kysymysId));
+            boolean oikein = true;
+            if (rs.getString("oikein").equals("Väärin")) {
+                oikein = false;
+            }
+            vastaukset.add(new Vastaus(rs.getInt("id"), rs.getString("vastaus"), oikein, kysymysId));
         }
         
         rs.close();
