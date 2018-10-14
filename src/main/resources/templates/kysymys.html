@@ -37,7 +37,7 @@
         </ul>
         
         <h2>Luo uusi vastausvaihtoehto</h2>
-        <!--<form th:action="@{~/kysymykset/lisaa/{id}{id=${kysymys.id}}" method="post">
+        <form th:action="@{~/kysymykset/lisaa/{id}(id=${kysymys.id})}" method="post">
           <table>
             <tr>
               <td>
@@ -59,7 +59,7 @@
 
           <input type="submit" value="Luo"/>
         </form>
-        -->
+        
         <ul>
             <li>
                 <a href="/">Kysymysten listaukseen</a>
