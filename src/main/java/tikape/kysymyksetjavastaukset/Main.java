@@ -65,11 +65,11 @@ public class Main {
             return "";
         });
         //TÄSSÄ ONGELMA::: pitää jostain saada tietää mihin kysymykseen viitataan jotta voidaan poistaa ja redirectata. ehkä luomalla /poista tms? myös kysymys.html väärin
-        Spark.post("/vastaukset/:id", (req, res) -> {
-            boolean oikein = false;
+        Spark.post("/kysymykset/lisaa/:id", (req, res) -> {
+            /*boolean oikein = false;
             if (req.queryParams("oikein") != null) {
-                oikein = true;
-            }
+            oikein = true;
+            }*/
             
             vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), true, Integer.parseInt(req.params(":id"))));
             System.out.println("TASSA TAMA ON !!!!!!!!!!!!!!!!!! ::: parametrit: " + req.queryParams("oikein"));
