@@ -11,6 +11,8 @@ import java.util.List;
 import spark.ModelAndView;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+import tikape.kysymyksetjavastaukset.dao.AiheDao;
+import tikape.kysymyksetjavastaukset.dao.KtestDao;
 import tikape.kysymyksetjavastaukset.dao.KysymysDao;
 import tikape.kysymyksetjavastaukset.dao.VastausDao;
 import tikape.kysymyksetjavastaukset.database.Database;
@@ -26,16 +28,21 @@ public class Main {
         Database database = new Database();
         KysymysDao kDao = new KysymysDao(database);
         VastausDao vDao = new VastausDao(database);
+        AiheDao aDao = new AiheDao(database);
+        KtestDao kTDao = new KtestDao(database);
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("lista", kDao.findAll());
+            map.put("lista", kTDao.findAll());
+            map.put("aiheet", aDao.findAll());
 
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());    
         
         Spark.post("/", (req, res) -> {
-            kDao.saveOrUpdate(new Kysymys(-1, req.queryParams("kurssi"), req.queryParams("aihe"), req.queryParams("kysymys")));
+            
+            Aihe a = aDao.saveOrUpdate(new Aihe(-1, req.queryParams("aihe")));
+            kTDao.saveOrUpdate(new KysymysTest(-1, a.getId(), req.queryParams("kysymys")));
             
             res.redirect("/");
             return "";
