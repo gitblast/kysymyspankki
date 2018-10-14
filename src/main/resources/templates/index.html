@@ -8,9 +8,11 @@
     <body>
         <h2>Kysymykset</h2>
         
-        <ul>
+        <ul th:each="aihe : ${aiheet}">
+            
+            <p th:text="${aihe.aihe}">aihe</p>
                 <li th:each="arvo : ${lista}">
-                    <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
+                    <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}" th:if="${arvo.aihe_id == aihe.id}">
                         <span th:text="${arvo.kysymys}">Kysymys</span>
                     </a>
                         <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
