@@ -9,7 +9,10 @@
         <h2>Kysymykset</h2>
         
         <ul th:each="kurssi : ${kurssit}">
-            <h2 th:text="${kurssi}">text</h2>
+            <li>
+                <h2 th:text="${kurssi}">text</h2>
+            </li>
+            
         </ul>
         
         <ul>
