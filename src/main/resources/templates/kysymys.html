@@ -2,19 +2,19 @@
 
 <html>
     <head>
-        <title th:text="${kysymykset.kysymys}">Kysymys</title>
+        <title th:text="${kysymys.kysymys}">Kysymys</title>
     </head>
     <body>
-        <h2 th:text="${kysymykset.kysymys}">Kysymys</h2>
+        <h2 th:text="${kysymys.kysymys}">Kysymys</h2>
         
         <table>
             <tr>
-              <td th:text="'Kurssi: ' + ${kysymykset.kurssi}">
+              <td th:text="'Kurssi: ' + ${kysymys.kurssi}">
                 Kurssi
               </td>
             </tr>
             <tr>
-              <td th:text="'Aihepiiri: ' + ${kysymykset.aihe}">
+              <td th:text="'Aihepiiri: ' + ${kysymys.aihe}">
                 Aihepiiri
               </td>
             </tr>
@@ -32,7 +32,7 @@
         </ul>
         
         <h2>Luo uusi vastausvaihtoehto</h2>
-        <form th:action="@{~/vastaukset/{id}{id=${kysymykset.id}}" method="post">
+        <form th:action="@{~/vastaukset/{id}{id=${kysymys.id}}" method="post">
           <table>
             <tr>
               <td>

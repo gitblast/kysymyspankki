@@ -45,7 +45,7 @@ public class Main {
             HashMap map = new HashMap<>();
             Integer kysymysId = Integer.parseInt(req.params(":id"));
             
-            map.put("kysymykset", kDao.findOne(kysymysId));
+            map.put("kysymys", kDao.findOne(kysymysId));
             map.put("vastaukset", vDao.findAll(kysymysId));
             
             return new ModelAndView(map, "kysymys");
@@ -71,7 +71,7 @@ public class Main {
                 oikein = true;
             }
             
-            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), oikein, Integer.parseInt(req.params(":id"))));
+            vDao.saveOrUpdate(new Vastaus(-1, req.queryParams("vastaus"), true, Integer.parseInt(req.params(":id"))));
             System.out.println("TASSA TAMA ON !!!!!!!!!!!!!!!!!! ::: parametrit: " + req.queryParams("oikein"));
             System.out.println("REQ BODY: " + req.body());
             
