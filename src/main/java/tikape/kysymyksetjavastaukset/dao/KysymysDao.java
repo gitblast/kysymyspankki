@@ -138,11 +138,18 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
     }*/
     @Override
     public void delete(Integer key) throws SQLException {
-        Connection conn = database.getConnection();
+        Connection conn = database.getConnection();        
+        
+        PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM Vastaus WHERE kysymys_id = ?");
+        stmt2.setInt(1, key);
+        stmt2.executeUpdate();
+        
         PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kysymys WHERE id = ?");
         stmt.setInt(1, key);
         stmt.executeUpdate();
         stmt.close();
+        stmt2.close();
+        
         conn.close();
         
     }
