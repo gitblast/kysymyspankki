@@ -8,23 +8,23 @@
     <body>
         <h2>Kysymykset</h2>
         <!-- TH:IF KURSSIT.ISEMPTY TMS JA SAMA AIHEILLE! tai sitten suoraan poisto jos tyhjä-->
-        <ul th:each="kurssi : ${kurssit}" >
-            <h3 th:text="${kurssi.kurssi}">kurssi</h3>
+    <ul th:each="kurssi : ${kurssit}" >
+        <h3 th:text="${kurssi.kurssi}">kurssi</h3>
             
-            <ul th:each="aihe : ${aiheet}" th:if="${aihe.kurssiId == kurssi.id}">
+        <ul th:each="aihe : ${aiheet}" th:if="${aihe.kurssiId == kurssi.id}">
 
-                <h4 th:text="${aihe.aihe}">aihe</h4>
-                    <li th:each="arvo : ${kysymykset}" th:if="${arvo.aiheId == aihe.id}">
-                        <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
-                            <span th:text="${arvo.kysymys}">Kysymys</span>
-                        </a>
-                            <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
-                                <input type="submit" value="Poista"/>
-                            </form>
-                    </li>
+        <h4 th:text="${aihe.aihe}">aihe</h4>
+            <li th:each="arvo : ${kysymykset}" th:if="${arvo.aiheId == aihe.id}">
+                <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
+                    <span th:text="${arvo.kysymys}">Kysymys</span>
+                </a>
+                    <form th:action="@{~/kysymykset/{id}(id=${arvo.id})}" method="post">
+                        <input type="submit" value="Poista"/>
+                    </form>
+            </li>
 
-            </ul>
         </ul>
+    </ul>
             
         <h2>Luo uusi kysymys</h2>
         <form action="/" method="POST">
