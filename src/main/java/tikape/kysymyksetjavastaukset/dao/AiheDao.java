@@ -126,6 +126,7 @@ public class AiheDao implements Dao<Aihe, Integer> {
         
         if (!rs.next()) {            
             PreparedStatement poisto = conn.prepareStatement("DELETE FROM Aihe WHERE id = ?");
+            poisto.setInt(1, key);
             poisto.executeUpdate();
             poisto.close();
         }
