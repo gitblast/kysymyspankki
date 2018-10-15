@@ -9,11 +9,11 @@
         <h2>Kysymykset</h2>
         <!-- TH:IF KURSSIT.ISEMPTY TMS JA SAMA AIHEILLE! tai sitten suoraan poisto jos tyhjä-->
     <ul th:each="kurssi : ${kurssit}" >
-        <h3 th:text="${kurssi.kurssi}">kurssi</h3>
+        <h3 th:text="'Kurssi: ' + ${kurssi.kurssi}">kurssi</h3>
             
         <ul th:each="aihe : ${aiheet}" th:if="${aihe.kurssiId == kurssi.id}">
 
-        <h4 th:text="${aihe.aihe}">aihe</h4>
+        <h4 th:text="'Aihe: ' + ${aihe.aihe}">aihe</h4>
             <li th:each="arvo : ${kysymykset}" th:if="${arvo.aiheId == aihe.id}">
                 <a th:href="@{~/kysymykset/{id}(id=${arvo.id})}">
                     <span th:text="${arvo.kysymys}">Kysymys</span>
