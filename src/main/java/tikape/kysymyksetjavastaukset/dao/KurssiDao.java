@@ -51,10 +51,19 @@ public class KurssiDao implements Dao<Kurssi, Integer> {
         stmt.setInt(1, questionId);
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
+            stmt.close();
+            rs.close();
+            conn.close();
             return null;
         }
         
-        return new Kurssi(rs.getInt("id"), rs.getString("kurssi"));
+        Kurssi k = new Kurssi(rs.getInt("id"), rs.getString("kurssi"));
+        
+        stmt.close();
+        rs.close();
+        conn.close();
+        
+        return k;
     }
 
     @Override
@@ -66,7 +75,11 @@ public class KurssiDao implements Dao<Kurssi, Integer> {
         
         while (testi.next()) {
             if (testi.getString("kurssi").equals(object.getKurssi())) {
-                return new Kurssi(testi.getInt("id"), testi.getString("kurssi"));
+                Kurssi k = new Kurssi(testi.getInt("id"), testi.getString("kurssi"));
+                testi.close();
+                tarkistus.close();
+                conn.close();
+                return k;
             }
         }
         

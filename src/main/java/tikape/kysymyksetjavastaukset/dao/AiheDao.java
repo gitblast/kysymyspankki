@@ -51,8 +51,14 @@ public class AiheDao implements Dao<Aihe, Integer> {
         stmt.setInt(1, questionId);
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
+            stmt.close();
+            rs.close();
+            conn.close();
             return null;
         }
+        stmt.close();
+        rs.close();
+        conn.close();
         
         return new Aihe(rs.getInt("id"), rs.getInt("kurssi_id"), rs.getString("aihe"));
     }
@@ -66,6 +72,9 @@ public class AiheDao implements Dao<Aihe, Integer> {
         
         while (testi.next()) {
             if (testi.getString("aihe").equals(object.getAihe()) && testi.getInt("kurssi_id") == object.getKurssiId()) {
+                testi.close();
+                tarkistus.close();
+                conn.close();
                 return new Aihe(testi.getInt("id"), testi.getInt("kurssi_id"), testi.getString("aihe"));
             }
         }

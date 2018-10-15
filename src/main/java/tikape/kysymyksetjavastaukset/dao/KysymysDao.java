@@ -63,6 +63,9 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         stmt.setInt(1, key);
         ResultSet rs = stmt.executeQuery();
         if (!rs.next()) {
+            stmt.close();
+            rs.close();
+            conn.close();
             return null;
         }
         
@@ -155,6 +158,10 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         stmt.executeUpdate();
         stmt.close();
         stmt2.close();
+        rs.close();
+        aihe.close();
+        
+        conn.close();
         
         return aiheId;
     }
