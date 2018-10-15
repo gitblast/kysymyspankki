@@ -114,6 +114,7 @@ public class AiheDao implements Dao<Aihe, Integer> {
         PreparedStatement kurssi = conn.prepareStatement("SELECT kurssi_id FROM Aihe WHERE id = ?");
         kurssi.setInt(1, key);
         ResultSet result = kurssi.executeQuery();
+        result.next();
         int kurssiId = result.getInt("kurssi_id");
         
         kurssi.close();
