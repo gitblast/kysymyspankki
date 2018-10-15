@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import tikape.kysymyksetjavastaukset.Aihe;
-import tikape.kysymyksetjavastaukset.Kysymys;
 import tikape.kysymyksetjavastaukset.database.Database;
 
 public class AiheDao implements Dao<Aihe, Integer> {
@@ -56,11 +55,13 @@ public class AiheDao implements Dao<Aihe, Integer> {
             conn.close();
             return null;
         }
+        Aihe a = new Aihe(rs.getInt("id"), rs.getInt("kurssi_id"), rs.getString("aihe"));
+        
         stmt.close();
         rs.close();
         conn.close();
         
-        return new Aihe(rs.getInt("id"), rs.getInt("kurssi_id"), rs.getString("aihe"));
+        return a;
     }
 
     @Override
