@@ -107,5 +107,23 @@ public class KurssiDao implements Dao<Kurssi, Integer> {
         
     }
 
+    public void deleteIfEmpty(Integer key) throws SQLException {
+        Connection conn = database.getConnection();
+        
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Aihe WHERE kurssi_id = ?");
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+        
+        if (!rs.next()) {
+            PreparedStatement poisto = conn.prepareStatement("DELETE FROM Kurssi WHERE id = ?");
+            poisto.setInt(1, key);
+            poisto.executeUpdate();
+            poisto.close();
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
 
 }

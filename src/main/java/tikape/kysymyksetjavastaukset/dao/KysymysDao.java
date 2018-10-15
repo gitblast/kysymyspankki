@@ -136,6 +136,28 @@ public class KysymysDao implements Dao<Kysymys, Integer>{
         conn.close();
         
     }
+    
+    public Integer deleteAndReturnAiheId(Integer key) throws SQLException {
+        Connection conn = database.getConnection(); 
+        
+        PreparedStatement aihe = conn.prepareStatement("SELECT aihe_id FROM Kysymys WHERE id = ?");
+        aihe.setInt(1, key);
+        ResultSet rs = aihe.executeQuery();
+        rs.next();
+        int aiheId = rs.getInt("aihe_id");
+        
+        PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM Vastaus WHERE kysymys_id = ?");
+        stmt2.setInt(1, key);
+        stmt2.executeUpdate();
+        
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Kysymys WHERE id = ?");
+        stmt.setInt(1, key);
+        stmt.executeUpdate();
+        stmt.close();
+        stmt2.close();
+        
+        return aiheId;
+    }
 
 
 }

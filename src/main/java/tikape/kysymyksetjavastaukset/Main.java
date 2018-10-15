@@ -57,8 +57,10 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         Spark.post("/kysymykset/:id", (req, res) -> {
-            kDao.delete(Integer.parseInt(req.params(":id")));
-            
+            //kysymys k = deleteandreturnAid, aDaodeleteifempty K, kurssidaodeleteifempty jne
+            int aiheId = kDao.deleteAndReturnAiheId(Integer.parseInt(req.params(":id")));
+            int kurssiId = aDao.deleteIfNoQuestions(aiheId);
+            kurssiDao.deleteIfEmpty(kurssiId);
             res.redirect("/");
             return "";
         });

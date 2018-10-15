@@ -107,6 +107,33 @@ public class AiheDao implements Dao<Aihe, Integer> {
         conn.close();
         
     }
-
+    
+    public Integer deleteIfNoQuestions(Integer key) throws SQLException {
+        Connection conn = database.getConnection();
+        
+        PreparedStatement kurssi = conn.prepareStatement("SELECT kurssi_id FROM Aihe WHERE id = ?");
+        kurssi.setInt(1, key);
+        ResultSet result = kurssi.executeQuery();
+        int kurssiId = result.getInt("kurssi_id");
+        
+        kurssi.close();
+        result.close();
+                        
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kysymys WHERE aihe_id = ?");
+        stmt.setInt(1, key);
+        ResultSet rs = stmt.executeQuery();
+        
+        if (!rs.next()) {            
+            PreparedStatement poisto = conn.prepareStatement("DELETE FROM Aihe WHERE id = ?");
+            poisto.executeUpdate();
+            poisto.close();
+        }
+        
+        rs.close();
+        stmt.close();
+        conn.close();
+        
+        return kurssiId;
+    }
 
 }
